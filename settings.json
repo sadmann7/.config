@@ -7,6 +7,9 @@
   "html.format.extraLiners": "",
   "eslint.format.enable": true,
   "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "[typescript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
   "[prisma]": {
     "editor.defaultFormatter": "Prisma.prisma"
   },
@@ -53,6 +56,6 @@
   "git.enableSmartCommit": true,
   "git.confirmSync": false,
   "terminal.integrated.fontWeightBold": "normal",
-  "editor.fontFamily": "Hack NFM",
+  "editor.fontFamily": "Hack Nerd Font Mono",
   "typescript.updateImportsOnFileMove.enabled": "always"
 }
