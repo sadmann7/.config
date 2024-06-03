@@ -15,6 +15,10 @@ Set-PsFzfOption -PSReadlineChordProvider "Ctrl+f" -PsReadlineChordReverseHistory
 # Icons
 Import-Module -Name Terminal-Icons
 
+
+# Aliases
+fnm env --use-on-cd | Out-String | Invoke-Expression
+
 # Utilities
 function which ($command) {
     Get-Command -Name $command -ErrorAction SilentlyContinue |
