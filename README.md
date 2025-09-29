@@ -52,7 +52,7 @@ To use these configurations:
 
 ## Requirements
 
-- [Oh My Zsh](https://ohmyz.sh/)
+- [oh my zsh](https://ohmyz.sh/)
 - [nvm](https://github.com/nvm-sh/nvm)
 - [eza](https://github.com/eza-community/eza)
 - [bat](https://github.com/sharkdp/bat)
