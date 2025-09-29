@@ -4,7 +4,7 @@ Personal configuration files and dotfiles organized by application.
 
 ## Structure
 
-```
+```text
 .config/
 ├── powershell/          # PowerShell configuration
 │   └── Microsoft.PowerShell_profile.ps1
@@ -21,6 +21,7 @@ Personal configuration files and dotfiles organized by application.
 ## Features
 
 ### Zsh Configuration (`zsh/.zshrc`)
+
 - **nvm integration** - Automatic Node.js version management
 - **Auto .nvmrc detection** - Switches Node versions based on project `.nvmrc` files
 - **tsx temp directory fix** - Resolves permission issues with tsx command
@@ -29,12 +30,15 @@ Personal configuration files and dotfiles organized by application.
 - **Database seeding alias** - `db:seed` command for easy database operations
 
 ### PowerShell Configuration
+
 - Custom PowerShell profile for Windows environments
 
 ### Oh My Posh Themes
+
 - Custom terminal themes for enhanced prompt styling
 
 ### VS Code Settings
+
 - Personal VS Code configuration and preferences
 
 ## Installation
