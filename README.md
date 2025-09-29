@@ -1,6 +1,6 @@
 # .config
 
-Personal configuration files and dotfiles organized by application.
+Personal configuration files and dotfiles.
 
 ## Structure
 
