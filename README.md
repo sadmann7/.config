@@ -54,7 +54,7 @@ To use these configurations:
 
 - [Oh My Zsh](https://ohmyz.sh/)
 - [nvm](https://github.com/nvm-sh/nvm)
-- [eza](https://github.com/eza-community/eza) (modern `ls` replacement)
-- [bat](https://github.com/sharkdp/bat) (modern `cat` replacement)  
-- [fd](https://github.com/sharkdp/fd) (modern `find` replacement)
-- [fzf](https://github.com/junegunn/fzf) (fuzzy finder)
+- [eza](https://github.com/eza-community/eza)
+- [bat](https://github.com/sharkdp/bat)
+- [fd](https://github.com/sharkdp/fd)
+- [fzf](https://github.com/junegunn/fzf)
