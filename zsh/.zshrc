@@ -132,7 +132,6 @@ zcompdump_refresh="false"
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(
   git
-  z
   zsh-autosuggestions
   brew
   macos
@@ -206,6 +205,16 @@ alias find="fd"
 alias db:seed="TMPDIR=\"\$TMPDIR\" pnpm db:seed"
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+# Initialize zoxide
+eval "$(zoxide init zsh)"
+
+# bun completions
+[ -s "/Users/sadman/.bun/_bun" ] && source "/Users/sadman/.bun/_bun"
+
+# bun
+export BUN_INSTALL="$HOME/.bun"
+export PATH="$BUN_INSTALL/bin:$PATH"
 
 # pnpm
 export PNPM_HOME="/Users/sadman/Library/pnpm"
