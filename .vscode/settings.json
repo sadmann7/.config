@@ -1,25 +1,19 @@
 {
   "explorer.confirmDelete": false,
   "explorer.confirmDragAndDrop": false,
-  "workbench.iconTheme": "material-icon-theme",
   "liveServer.settings.donotShowInfoMsg": true,
   "editor.formatOnSave": true,
   "html.format.extraLiners": "",
   "eslint.format.enable": true,
   "editor.defaultFormatter": "esbenp.prettier-vscode",
-  "[typescript]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
-  },
   "[prisma]": {
     "editor.defaultFormatter": "Prisma.prisma"
   },
   "editor.suggestSelection": "first",
-  "vsintellicode.modify.editor.suggestSelection": "automaticallyOverrodeDefaultValue",
   "emmet.includeLanguages": {
     "javascript": "javascriptreact"
   },
   "editor.bracketPairColorization.enabled": true,
-  "workbench.colorTheme": "Community Material Theme Palenight High Contrast",
   "editor.quickSuggestions": {
     "strings": true
   },
@@ -57,5 +51,8 @@
   "git.confirmSync": false,
   "terminal.integrated.fontWeightBold": "normal",
   "editor.fontFamily": "Hack Nerd Font Mono",
-  "typescript.updateImportsOnFileMove.enabled": "always"
+  "typescript.updateImportsOnFileMove.enabled": "always",
+  "workbench.iconTheme": "material-icon-theme",
+  "workbench.colorTheme": "Vesper",
+  "git.autofetch": true
 }
