@@ -26,17 +26,21 @@ npm() { _load_nvm && npm "$@"; }
 npx() { _load_nvm && npx "$@"; }
 
 # ============================================
-# Fast compinit (once per day, skip security check)
+# Completions
 # ============================================
+# Add Homebrew completions to fpath
+fpath=("$HOMEBREW_PREFIX/share/zsh/site-functions" $fpath)
+
+# Fast compinit (once per day, skip security check)
 autoload -Uz compinit
 ZSH_COMPDUMP="${XDG_CACHE_HOME:-$HOME/.cache}/zsh/.zcompdump"
 [[ -d "${ZSH_COMPDUMP%/*}" ]] || mkdir -p "${ZSH_COMPDUMP%/*}"
 
-# Always use -C (skip check) if dump exists and is from today
-if [[ -n "$ZSH_COMPDUMP"(#qN.mh-24) ]]; then
+# Use cache if dump exists and is less than 24 hours old
+if [[ -f "$ZSH_COMPDUMP" && $(find "$ZSH_COMPDUMP" -mtime -1 2>/dev/null) ]]; then
   compinit -C -d "$ZSH_COMPDUMP"
 else
-  compinit -i -d "$ZSH_COMPDUMP"  # -i skips insecure directory warnings
+  compinit -i -d "$ZSH_COMPDUMP"
 fi
 
 # ============================================
