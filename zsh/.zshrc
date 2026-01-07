@@ -31,12 +31,11 @@ npx() { _load_nvm && npx "$@"; }
 # Add Homebrew completions to fpath
 fpath=("$HOMEBREW_PREFIX/share/zsh/site-functions" $fpath)
 
-# Fast compinit (once per day, skip security check)
+# Fast compinit (once per day)
 autoload -Uz compinit
 ZSH_COMPDUMP="${XDG_CACHE_HOME:-$HOME/.cache}/zsh/.zcompdump"
 [[ -d "${ZSH_COMPDUMP%/*}" ]] || mkdir -p "${ZSH_COMPDUMP%/*}"
 
-# Use cache if dump exists and is less than 24 hours old
 if [[ -f "$ZSH_COMPDUMP" && $(find "$ZSH_COMPDUMP" -mtime -1 2>/dev/null) ]]; then
   compinit -C -d "$ZSH_COMPDUMP"
 else
@@ -70,17 +69,19 @@ bindkey '^[[A' history-search-backward
 bindkey '^[[B' history-search-forward
 
 # ============================================
-# Autosuggestions (loaded after line editor init)
+# Autosuggestions
 # ============================================
 ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=#666666"
-ZSH_AUTOSUGGEST_STRATEGY=(history)
+ZSH_AUTOSUGGEST_STRATEGY=(history completion)
 ZSH_AUTOSUGGEST_MANUAL_REBIND=1
-ZSH_AUTOSUGGEST="${HOMEBREW_PREFIX}/share/zsh-autosuggestions/zsh-autosuggestions.zsh"
-[[ -f "$ZSH_AUTOSUGGEST" ]] && source "$ZSH_AUTOSUGGEST"
 
-# Syntax highlighting (must be last)
-ZSH_SYNTAX="${HOMEBREW_PREFIX}/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
-[[ -f "$ZSH_SYNTAX" ]] && source "$ZSH_SYNTAX"
+# Try oh-my-zsh location first, then homebrew
+if [[ -f "$HOME/.oh-my-zsh/custom/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh" ]]; then
+  source "$HOME/.oh-my-zsh/custom/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh"
+elif [[ -f "$HOMEBREW_PREFIX/share/zsh-autosuggestions/zsh-autosuggestions.zsh" ]]; then
+  source "$HOMEBREW_PREFIX/share/zsh-autosuggestions/zsh-autosuggestions.zsh"
+fi
+
 
 # ============================================
 # Aliases
