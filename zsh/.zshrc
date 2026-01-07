@@ -1,225 +1,120 @@
-# If you come from bash you might have to change your $PATH.
-# export PATH=$HOME/bin:$HOME/.local/bin:/usr/local/bin:$PATH
+# ============================================
+# Minimal Ultra-Fast ZSH Config
+# Target: <50ms startup
+# ============================================
 
-# Add Homebrew to PATH (for Apple Silicon Macs)
-if [[ -f "/opt/homebrew/bin/brew" ]]; then
-  eval "$(/opt/homebrew/bin/brew shellenv)"
-fi
+# Homebrew (cached path instead of eval)
+export HOMEBREW_PREFIX="/opt/homebrew"
+export PATH="$HOMEBREW_PREFIX/bin:$HOMEBREW_PREFIX/sbin:$PATH"
 
-# Ensure TMPDIR is set to an accessible location
-if [[ -z "$TMPDIR" ]] || [[ ! -w "$TMPDIR" ]]; then
-  export TMPDIR="/tmp"
-fi
-# Ensure TMPDIR ends with a slash for consistency
-export TMPDIR="${TMPDIR%/}/"
+# TMPDIR
+[[ -z "$TMPDIR" || ! -w "$TMPDIR" ]] && export TMPDIR="/tmp"
 
-# Load nvm early to ensure it takes precedence over Homebrew Node
+# ============================================
+# Lazy-load NVM
+# ============================================
 export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+[[ -f "$NVM_DIR/alias/default" ]] && export PATH="$NVM_DIR/versions/node/$(cat $NVM_DIR/alias/default)/bin:$PATH"
 
-# Automatically use the Node version specified in .nvmrc if present
-autoload -U add-zsh-hook
-load-nvmrc() {
-  local nvmrc_path="$(nvm_find_nvmrc)"
-  if [ -n "$nvmrc_path" ]; then
-    local nvmrc_node_version=$(nvm version "$(cat "${nvmrc_path}")")
-    if [ "$nvmrc_node_version" = "N/A" ]; then
-      nvm install
-    elif [ "$nvmrc_node_version" != "$(nvm version)" ]; then
-      nvm use
-    fi
-  elif [ -n "$(PWD=$OLDPWD nvm_find_nvmrc)" ] && [ "$(nvm version)" != "$(nvm version default)" ]; then
-    echo "Reverting to nvm default version"
-    nvm use default
-  fi
+_load_nvm() {
+  unset -f nvm node npm npx
+  [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
 }
-add-zsh-hook chpwd load-nvmrc
-load-nvmrc
+nvm() { _load_nvm && nvm "$@"; }
+node() { _load_nvm && node "$@"; }
+npm() { _load_nvm && npm "$@"; }
+npx() { _load_nvm && npx "$@"; }
 
-# Path to your Oh My Zsh installation.
-export ZSH="$HOME/.oh-my-zsh"
+# ============================================
+# Fast compinit (once per day, skip security check)
+# ============================================
+autoload -Uz compinit
+ZSH_COMPDUMP="${XDG_CACHE_HOME:-$HOME/.cache}/zsh/.zcompdump"
+[[ -d "${ZSH_COMPDUMP%/*}" ]] || mkdir -p "${ZSH_COMPDUMP%/*}"
 
-# Set name of the theme to load --- if set to "random", it will
-# load a random theme each time Oh My Zsh is loaded, in which case,
-# to know which specific one was loaded, run: echo $RANDOM_THEME
-# See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
-ZSH_THEME="robbyrussell"
+# Always use -C (skip check) if dump exists and is from today
+if [[ -n "$ZSH_COMPDUMP"(#qN.mh-24) ]]; then
+  compinit -C -d "$ZSH_COMPDUMP"
+else
+  compinit -i -d "$ZSH_COMPDUMP"  # -i skips insecure directory warnings
+fi
 
-# Set list of themes to pick from when loading at random
-# Setting this variable when ZSH_THEME=random will cause zsh to load
-# a theme from this variable instead of looking in $ZSH/themes/
-# If set to an empty array, this variable will have no effect.
-# ZSH_THEME_RANDOM_CANDIDATES=( "robbyrussell" "agnoster" )
+# ============================================
+# Prompt (oh-my-zsh robbyrussell style)
+# ============================================
+autoload -Uz vcs_info
+precmd() { vcs_info }
+zstyle ':vcs_info:git:*' formats ' %F{blue}git:(%F{red}%b%F{blue})%f'
+setopt PROMPT_SUBST
+PROMPT='%F{green}➜%f  %F{cyan}%1~%f${vcs_info_msg_0_} '
 
-# Uncomment the following line to use case-sensitive completion.
-# CASE_SENSITIVE="true"
-
-# Uncomment the following line to use hyphen-insensitive completion.
-# Case-sensitive completion must be off. _ and - will be interchangeable.
-# HYPHEN_INSENSITIVE="true"
-
-# Uncomment one of the following lines to change the auto-update behavior
-# zstyle ':omz:update' mode disabled  # disable automatic updates
-# zstyle ':omz:update' mode auto      # update automatically without asking
-# zstyle ':omz:update' mode reminder  # just remind me to update when it's time
-
-# Uncomment the following line to change how often to auto-update (in days).
-# zstyle ':omz:update' frequency 13
-
-# Uncomment the following line if pasting URLs and other text is messed up.
-# DISABLE_MAGIC_FUNCTIONS="true"
-
-# Uncomment the following line to disable colors in ls.
-# DISABLE_LS_COLORS="true"
-
-# Uncomment the following line to disable auto-setting terminal title.
-# DISABLE_AUTO_TITLE="true"
-
-# Uncomment the following line to enable command auto-correction.
-# ENABLE_CORRECTION="true"
-
-# Uncomment the following line to display red dots whilst waiting for completion.
-# You can also set it to another string to have that shown instead of the default red dots.
-# e.g. COMPLETION_WAITING_DOTS="%F{yellow}waiting...%f"
-# Caution: this setting can cause issues with multiline prompts in zsh < 5.7.1 (see #5765)
-# COMPLETION_WAITING_DOTS="true"
-
-# Uncomment the following line if you want to disable marking untracked files
-# under VCS as dirty. This makes repository status check for large repositories
-# much, much faster.
-# DISABLE_UNTRACKED_FILES_DIRTY="true"
-
-# Uncomment the following line if you want to change the command execution time
-# stamp shown in the history command output.
-# You can set one of the optional three formats:
-# "mm/dd/yyyy"|"dd.mm.yyyy"|"yyyy-mm-dd"
-# or set a custom format using the strftime function format specifications,
-# see 'man strftime' for details.
-# HIST_STAMPS="mm/dd/yyyy"
-
-# Would you like to use another custom folder than $ZSH/custom?
-ZSH_CUSTOM="$ZSH/custom"
-
-# Set cache directory
-ZSH_CACHE_DIR="$ZSH/cache"
-
-# Set completion dump file
-ZSH_COMPDUMP="$ZSH_CACHE_DIR/.zcompdump-$HOST"
-
-# Disable update prompt
-DISABLE_UPDATE_PROMPT="true"
-DISABLE_AUTO_UPDATE="true"
-
-# Disable compfix warnings
-ZSH_DISABLE_COMPFIX="true"
-
-# Set additional variables
-CASE_SENSITIVE="false"
-ENABLE_CORRECTION="false"
+# ============================================
+# History
+# ============================================
 HISTFILE="$HOME/.zsh_history"
-HYPHEN_INSENSITIVE="false"
-DISABLE_MAGIC_FUNCTIONS="false"
-DISABLE_LS_COLORS="false"
-
-# Set other optional variables
-zcompdump_refresh="false"
-
-# Which plugins would you like to load?
-# Standard plugins can be found in $ZSH/plugins/
-# Custom plugins may be added to $ZSH_CUSTOM/plugins/
-# Example format: plugins=(rails git textmate ruby lighthouse)
-# Add wisely, as too many plugins slow down shell startup.
-plugins=(
-  git
-  zsh-autosuggestions
-  brew
-  macos
-  node
-  npm
-  vscode
-)
-
-source $ZSH/oh-my-zsh.sh
-
-# User configuration
-
-# export MANPATH="/usr/local/man:$MANPATH"
-
-# You may need to manually set your language environment
-# export LANG=en_US.UTF-8
-
-# Preferred editor for local and remote sessions
-# if [[ -n $SSH_CONNECTION ]]; then
-#   export EDITOR='vim'
-# else
-#   export EDITOR='nvim'
-# fi
-
-# Compilation flags
-# export ARCHFLAGS="-arch $(uname -m)"
-
-# Set personal aliases, overriding those provided by Oh My Zsh libs,
-# plugins, and themes. Aliases can be placed here, though Oh My Zsh
-# users are encouraged to define aliases within a top-level file in
-# the $ZSH_CUSTOM folder, with .zsh extension. Examples:
-# - $ZSH_CUSTOM/aliases.zsh
-# - $ZSH_CUSTOM/macos.zsh
-# For a full list of active aliases, run `alias`.
-#
-# Example aliases
-# alias zshconfig="mate ~/.zshrc"
-# alias ohmyzsh="mate ~/.oh-my-zsh"
-
-# Autosuggestions configuration
-ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=#666666"
-ZSH_AUTOSUGGEST_STRATEGY=(history completion)
-ZSH_AUTOSUGGEST_USE_ASYNC=true
-
-# Better history configuration
 HISTSIZE=10000
 SAVEHIST=10000
-setopt HIST_EXPIRE_DUPS_FIRST
-setopt HIST_IGNORE_DUPS
-setopt HIST_IGNORE_ALL_DUPS
-setopt HIST_IGNORE_SPACE
-setopt HIST_FIND_NO_DUPS
-setopt HIST_SAVE_NO_DUPS
+setopt HIST_EXPIRE_DUPS_FIRST HIST_IGNORE_DUPS HIST_IGNORE_ALL_DUPS
+setopt HIST_IGNORE_SPACE HIST_FIND_NO_DUPS HIST_SAVE_NO_DUPS
+setopt SHARE_HISTORY APPEND_HISTORY INC_APPEND_HISTORY
 
-# Useful aliases
+# ============================================
+# Key bindings
+# ============================================
+bindkey -e  # emacs mode
+bindkey '^[[A' history-search-backward
+bindkey '^[[B' history-search-forward
+
+# ============================================
+# Autosuggestions (loaded after line editor init)
+# ============================================
+ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=#666666"
+ZSH_AUTOSUGGEST_STRATEGY=(history)
+ZSH_AUTOSUGGEST_MANUAL_REBIND=1
+ZSH_AUTOSUGGEST="${HOMEBREW_PREFIX}/share/zsh-autosuggestions/zsh-autosuggestions.zsh"
+[[ -f "$ZSH_AUTOSUGGEST" ]] && source "$ZSH_AUTOSUGGEST"
+
+# Syntax highlighting (must be last)
+ZSH_SYNTAX="${HOMEBREW_PREFIX}/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
+[[ -f "$ZSH_SYNTAX" ]] && source "$ZSH_SYNTAX"
+
+# ============================================
+# Aliases
+# ============================================
 alias ll="eza -la --icons"
 alias la="eza -A --icons"
-alias l="eza -F --icons"
 alias ls="eza --icons"
 alias tree="eza --tree --icons"
 alias ..="cd .."
 alias ...="cd ../.."
-alias ....="cd ../../.."
-alias grep="grep --color=auto"
-alias fgrep="fgrep --color=auto"
-alias egrep="egrep --color=auto"
 alias cat="bat"
 alias find="fd"
 
-# Fix for tsx temp directory permission issues
-alias db:seed="TMPDIR=\"\$TMPDIR\" pnpm db:seed"
+# Git aliases (what you'd use from oh-my-zsh git plugin)
+alias g="git"
+alias ga="git add"
+alias gc="git commit"
+alias gco="git checkout"
+alias gd="git diff"
+alias gl="git pull"
+alias gp="git push"
+alias gst="git status"
+alias gb="git branch"
+alias glog="git log --oneline --graph"
 
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+# ============================================
+# Lazy-load tools
+# ============================================
+_load_zoxide() { unset -f z zi; eval "$(zoxide init zsh)"; }
+z() { _load_zoxide && z "$@"; }
+zi() { _load_zoxide && zi "$@"; }
 
-# Initialize zoxide
-eval "$(zoxide init zsh)"
+# fzf
+[[ -f ~/.fzf.zsh ]] && source ~/.fzf.zsh
 
-# bun completions
-[ -s "/Users/sadman/.bun/_bun" ] && source "/Users/sadman/.bun/_bun"
-
-# bun
+# ============================================
+# PATH
+# ============================================
 export BUN_INSTALL="$HOME/.bun"
-export PATH="$BUN_INSTALL/bin:$PATH"
-
-# pnpm
-export PNPM_HOME="/Users/sadman/Library/pnpm"
-case ":$PATH:" in
-  *":$PNPM_HOME:"*) ;;
-  *) export PATH="$PNPM_HOME:$PATH" ;;
-esac
-# pnpm end
+export PNPM_HOME="$HOME/Library/pnpm"
+export PATH="$BUN_INSTALL/bin:$PNPM_HOME:$HOME/.local/bin:$PATH"
