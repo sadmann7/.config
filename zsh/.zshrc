@@ -25,6 +25,27 @@ node() { _load_nvm && node "$@"; }
 npm() { _load_nvm && npm "$@"; }
 npx() { _load_nvm && npx "$@"; }
 
+# Auto-switch Node version based on .nvmrc (lazy-loaded)
+autoload -U add-zsh-hook
+_auto_nvmrc() {
+  local nvmrc_path="$(nvm_find_nvmrc 2>/dev/null)"
+  if [[ -n "$nvmrc_path" ]]; then
+    _load_nvm
+    local nvmrc_node_version=$(nvm version "$(cat "${nvmrc_path}")")
+    if [[ "$nvmrc_node_version" = "N/A" ]]; then
+      nvm install
+    elif [[ "$nvmrc_node_version" != "$(nvm version)" ]]; then
+      nvm use
+    fi
+  elif [[ -n "$(PWD=$OLDPWD nvm_find_nvmrc 2>/dev/null)" ]] && [[ "$(nvm version 2>/dev/null)" != "$(nvm version default 2>/dev/null)" ]]; then
+    _load_nvm
+    echo "Reverting to nvm default version"
+    nvm use default
+  fi
+}
+add-zsh-hook chpwd _auto_nvmrc
+_auto_nvmrc  # Run on shell startup
+
 # ============================================
 # Completions
 # ============================================
