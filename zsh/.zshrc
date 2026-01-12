@@ -14,16 +14,17 @@ export PATH="$HOMEBREW_PREFIX/bin:$HOMEBREW_PREFIX/sbin:$PATH"
 # Lazy-load NVM
 # ============================================
 export NVM_DIR="$HOME/.nvm"
-[[ -f "$NVM_DIR/alias/default" ]] && export PATH="$NVM_DIR/versions/node/$(cat $NVM_DIR/alias/default)/bin:$PATH"
+[[ -f "$NVM_DIR/alias/default" ]] && export PATH="$NVM_DIR/versions/node/v$(cat $NVM_DIR/alias/default)/bin:$PATH"
 
 _load_nvm() {
-  unset -f nvm node npm npx
+  unset -f nvm node npm npx pnpm
   [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
 }
 nvm() { _load_nvm && nvm "$@"; }
 node() { _load_nvm && node "$@"; }
 npm() { _load_nvm && npm "$@"; }
 npx() { _load_nvm && npx "$@"; }
+pnpm() { _load_nvm && pnpm "$@"; }
 
 # Auto-switch Node version based on .nvmrc (lazy-loaded)
 autoload -U add-zsh-hook
