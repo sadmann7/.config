@@ -11,41 +11,41 @@ export PATH="$HOMEBREW_PREFIX/bin:$HOMEBREW_PREFIX/sbin:$PATH"
 [[ -z "$TMPDIR" || ! -w "$TMPDIR" ]] && export TMPDIR="/tmp"
 
 # ============================================
-# Lazy-load NVM
+# Lazy-load NVM with .nvmrc auto-switch
 # ============================================
 export NVM_DIR="$HOME/.nvm"
-[[ -f "$NVM_DIR/alias/default" ]] && export PATH="$NVM_DIR/versions/node/v$(cat $NVM_DIR/alias/default)/bin:$PATH"
+[[ -f "$NVM_DIR/alias/default" ]] && export PATH="$NVM_DIR/versions/node/$(cat $NVM_DIR/alias/default)/bin:$PATH"
 
+_nvm_loaded=0
 _load_nvm() {
-  unset -f nvm node npm npx pnpm
+  [[ $_nvm_loaded -eq 1 ]] && return
+  unset -f nvm node npm npx 2>/dev/null
   [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+  _nvm_loaded=1
 }
 nvm() { _load_nvm && nvm "$@"; }
 node() { _load_nvm && node "$@"; }
 npm() { _load_nvm && npm "$@"; }
 npx() { _load_nvm && npx "$@"; }
-pnpm() { _load_nvm && pnpm "$@"; }
 
-# Auto-switch Node version based on .nvmrc (lazy-loaded)
-autoload -U add-zsh-hook
-_auto_nvmrc() {
-  local nvmrc_path="$(nvm_find_nvmrc 2>/dev/null)"
-  if [[ -n "$nvmrc_path" ]]; then
-    _load_nvm
-    local nvmrc_node_version=$(nvm version "$(cat "${nvmrc_path}")")
-    if [[ "$nvmrc_node_version" = "N/A" ]]; then
-      nvm install
-    elif [[ "$nvmrc_node_version" != "$(nvm version)" ]]; then
-      nvm use
+# Auto-switch node version based on .nvmrc
+_nvmrc_hook() {
+  local nvmrc_path
+  nvmrc_path="$(pwd)"
+  while [[ "$nvmrc_path" != "" && ! -f "$nvmrc_path/.nvmrc" ]]; do
+    nvmrc_path="${nvmrc_path%/*}"
+  done
+  if [[ -f "$nvmrc_path/.nvmrc" ]]; then
+    local nvmrc_version=$(cat "$nvmrc_path/.nvmrc")
+    local current_version=$(node -v 2>/dev/null)
+    if [[ "$current_version" != "$nvmrc_version" && "$current_version" != "v$nvmrc_version" ]]; then
+      _load_nvm
+      nvm use --silent 2>/dev/null || nvm install
     fi
-  elif [[ -n "$(PWD=$OLDPWD nvm_find_nvmrc 2>/dev/null)" ]] && [[ "$(nvm version 2>/dev/null)" != "$(nvm version default 2>/dev/null)" ]]; then
-    _load_nvm
-    echo "Reverting to nvm default version"
-    nvm use default
   fi
 }
-add-zsh-hook chpwd _auto_nvmrc
-_auto_nvmrc  # Run on shell startup
+autoload -U add-zsh-hook
+add-zsh-hook chpwd _nvmrc_hook
 
 # ============================================
 # Completions
@@ -140,8 +140,8 @@ zi() { _load_zoxide && zi "$@"; }
 [[ -f ~/.fzf.zsh ]] && source ~/.fzf.zsh
 
 # ============================================
-# PATH
+# PATH (nvm node should come before pnpm)
 # ============================================
 export BUN_INSTALL="$HOME/.bun"
 export PNPM_HOME="$HOME/Library/pnpm"
-export PATH="$BUN_INSTALL/bin:$PNPM_HOME:$HOME/.local/bin:$PATH"
+export PATH="$HOME/.local/bin:$BUN_INSTALL/bin:$PNPM_HOME:$PATH"
