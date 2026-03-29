@@ -2,11 +2,13 @@
 oh-my-posh init pwsh --config "$env:POSH_THEMES_PATH\custom-two.omp.json" | Invoke-Expression
 
 # PSReadLine
-Set-PSReadLineOption -EditMode Emacs
-Set-PSReadLineOption -BellStyle None
-Set-PSReadLineKeyHandler -Chord "Ctrl+d" -Function DeleteChar
-Set-PSReadLineOption -PredictionSource HistoryAndPlugin
-Set-PSReadLineOption -PredictionViewStyle ListView
+if ($Host.UI.SupportsVirtualTerminal -and [Environment]::UserInteractive) {
+    Set-PSReadLineOption -EditMode Emacs
+    Set-PSReadLineOption -BellStyle None
+    Set-PSReadLineKeyHandler -Chord "Ctrl+d" -Function DeleteChar
+    Set-PSReadLineOption -PredictionSource HistoryAndPlugin
+    Set-PSReadLineOption -PredictionViewStyle ListView
+}
 
 # Fzf
 Import-Module PSFzf
