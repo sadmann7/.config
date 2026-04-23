@@ -17,6 +17,8 @@ Set-PsFzfOption -PSReadlineChordProvider "Ctrl+f" -PsReadlineChordReverseHistory
 # Icons
 Import-Module -Name Terminal-Icons
 
+# Zoxide
+Invoke-Expression (& { (zoxide init powershell | Out-String) })
 
 # Aliases
 fnm env --use-on-cd | Out-String | Invoke-Expression
