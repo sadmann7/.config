@@ -10,8 +10,10 @@ Personal configuration files and dotfiles.
 │   └── Microsoft.PowerShell_profile.ps1
 ├── themes/              # Terminal themes
 │   └── ohmyposh/        # Oh My Posh themes
-│       ├── custom-one.omp.json
-│       └── custom-two.omp.json
+│       ├── blush.omp.json   # Soft pink/purple palette
+│       └── cobalt.omp.json  # Blue dev theme (active)
+├── windowsterminal/     # Windows Terminal configuration
+│   └── settings.json
 ├── vscode/              # VS Code configuration
 │   └── settings.json
 └── zsh/                 # Zsh shell configuration
@@ -31,11 +33,16 @@ Personal configuration files and dotfiles.
 
 ### PowerShell Configuration
 
-- Custom PowerShell profile for Windows environments
+- **oh-my-posh** with `cobalt` theme (async prompt for fast startup)
+- **zoxide** for smart directory jumping (`z`)
+- **fnm** for Node.js version management (guarded to skip re-init)
+- **PSFzf + Terminal-Icons** deferred so the prompt appears first
+- **`which` utility** for resolving command paths
 
 ### Oh My Posh Themes
 
-- Custom terminal themes for enhanced prompt styling
+- **`blush`** — soft pink/purple palette, clock on the right
+- **`cobalt`** — blue dev theme with exit code and command timing (active)
 
 ### VS Code Settings
 
@@ -47,8 +54,9 @@ To use these configurations:
 
 1. **Zsh**: `ln -sf ~/.config/zsh/.zshrc ~/.zshrc`
 2. **VS Code**: Copy settings from `vscode/settings.json` to your VS Code settings
-3. **PowerShell**: Copy profile to your PowerShell profile location
-4. **Oh My Posh**: Use themes with `oh-my-posh init pwsh --config ~/.config/themes/ohmyposh/custom-one.omp.json`
+3. **PowerShell**: Copy profile to `$PROFILE` (usually `~/Documents/PowerShell/Microsoft.PowerShell_profile.ps1`)
+4. **Oh My Posh themes**: Copy `.omp.json` files to `$env:POSH_THEMES_PATH`
+5. **Windows Terminal**: Copy `windowsterminal/settings.json` to `%LOCALAPPDATA%\Packages\Microsoft.WindowsTerminal_8wekyb3d8bbwe\LocalState\`
 
 ## Requirements
 
