@@ -41,13 +41,14 @@ Personal configuration files and dotfiles.
 - **Aliases** - `eza` for `ls`/`ll`/`la`/`tree`, `bat` for `cat`, `fd` for `find`, `repos` to jump to `$CODE_HOME`, and short git aliases (`g`, `ga`, `gc`, `gst`, `glog`, ...)
 - **PATH** for bun, pnpm (`$PNPM_HOME/bin`), Java (OpenJDK 21) and the Android SDK (emulator, platform-tools, cmdline-tools)
 
-### PowerShell Configuration
+### PowerShell Configuration (`powershell/Microsoft.PowerShell_profile.ps1`)
 
-- **oh-my-posh** with `cobalt` theme (async prompt for fast startup)
-- **zoxide** for smart directory jumping (`z`)
-- **fnm** for Node.js version management (guarded to skip re-init)
-- **PSFzf + Terminal-Icons** deferred so the prompt appears first
-- **`which` utility** for resolving command paths
+- **oh-my-posh** with the `cobalt` theme (async, so the prompt shows before git info loads)
+- **PSReadLine** - Emacs keybindings, no bell, `Ctrl+d` deletes a character, history predictions in a list view
+- **zoxide** for smart directory jumping (`z`, `zi`)
+- **fnm** for Node.js version management, switching versions on `cd` (skipped if already initialized)
+- **PSFzf + Terminal-Icons** loaded after the prompt appears; `Ctrl+f` finds files, `Ctrl+r` searches history
+- **`which`** - Prints the path of a command
 
 ### Oh My Posh Themes
 
@@ -75,6 +76,8 @@ To use these configurations:
 
 ## Requirements
 
+Zsh (macOS):
+
 - [nvm](https://github.com/nvm-sh/nvm)
 - [zsh-autosuggestions](https://github.com/zsh-users/zsh-autosuggestions)
 - [zoxide](https://github.com/ajeetdsouza/zoxide)
@@ -83,3 +86,11 @@ To use these configurations:
 - [fd](https://github.com/sharkdp/fd)
 - [fzf](https://github.com/junegunn/fzf)
 - OpenJDK 21 and the Android SDK (optional, for Android work)
+
+PowerShell (Windows):
+
+- [oh-my-posh](https://ohmyposh.dev/)
+- [zoxide](https://github.com/ajeetdsouza/zoxide)
+- [fnm](https://github.com/Schniz/fnm)
+- [fzf](https://github.com/junegunn/fzf) with [PSFzf](https://github.com/kelleyma49/PSFzf)
+- [Terminal-Icons](https://github.com/devblackops/Terminal-Icons)
