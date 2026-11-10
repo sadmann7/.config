@@ -6,19 +6,20 @@ Personal configuration files and dotfiles.
 
 ```text
 .config/
-├── powershell/          # PowerShell configuration
+├── .gitignore
+├── .vscode/
+│   └── settings.json        # Shared by VS Code and Cursor
+├── powershell/
 │   └── Microsoft.PowerShell_profile.ps1
-├── themes/              # Terminal themes
-│   └── ohmyposh/        # Oh My Posh themes
-│       ├── blush.omp.json   # Soft pink/purple palette
-│       └── cobalt.omp.json  # Blue dev theme (active)
-├── windowsterminal/     # Windows Terminal configuration
+├── themes/
+│   └── ohmyposh/
+│       ├── blush.omp.json
+│       └── cobalt.omp.json  # Active
+├── windowsterminal/
 │   └── settings.json
-├── .vscode/             # VS Code + Cursor configuration (shared)
-│   └── settings.json
-└── zsh/                 # Zsh shell configuration
-    ├── .zshenv          # Env for every shell: PATH, CODE_HOME, nvm node
-    └── .zshrc           # Interactive shell: prompt, aliases, lazy loaders
+└── zsh/
+    ├── .zshenv              # Every shell
+    └── .zshrc               # Interactive shells
 ```
 
 ## Features
