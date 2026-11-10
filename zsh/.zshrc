@@ -114,6 +114,7 @@ alias ls="eza --icons"
 alias tree="eza --tree --icons"
 alias ..="cd .."
 alias ...="cd ../.."
+alias repos="cd \"$CODE_HOME\""
 alias cat="bat"
 alias find="fd"
 

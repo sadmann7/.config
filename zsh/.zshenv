@@ -3,3 +3,6 @@ skip_global_compinit=1
 
 # uv / user binaries
 export PATH="$HOME/.local/bin:$PATH"
+
+# All git clones live here
+export CODE_HOME="$HOME/code"
