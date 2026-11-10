@@ -50,6 +50,7 @@
   "git.confirmSync": false,
   "terminal.integrated.fontWeightBold": "normal",
   "editor.fontFamily": "Hack Nerd Font Mono",
+  "js/ts.updateImportsOnFileMove.enabled": "always",
   "workbench.iconTheme": "material-icon-theme",
   "json.schemaDownload.enable": true,
   "json.schemaDownload.trustedDomains": {
