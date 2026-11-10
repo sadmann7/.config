@@ -1,0 +1,7 @@
+# App-managed config (may contain tokens)
+codexbar/
+configstore/
+gh/
+opencode/
+raycast/
+varlock/
