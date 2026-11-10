@@ -17,19 +17,29 @@ Personal configuration files and dotfiles.
 ├── .vscode/             # VS Code + Cursor configuration (shared)
 │   └── settings.json
 └── zsh/                 # Zsh shell configuration
-    └── .zshrc           # Main zsh config with nvm setup
+    ├── .zshenv          # Env for every shell: PATH, CODE_HOME, nvm node
+    └── .zshrc           # Interactive shell: prompt, aliases, lazy loaders
 ```
 
 ## Features
 
-### Zsh Configuration (`zsh/.zshrc`)
+### Zsh Configuration (`zsh/`)
 
-- **nvm integration** - Automatic Node.js version management
-- **Auto .nvmrc detection** - Switches Node versions based on project `.nvmrc` files
-- **tsx temp directory fix** - Resolves permission issues with tsx command
-- **Oh My Zsh** with plugins: git, z, zsh-autosuggestions, brew, macos, node, npm, vscode
-- **Modern aliases** - Uses `eza`, `bat`, `fd` for enhanced terminal experience
-- **Database seeding alias** - `db:seed` command for easy database operations
+`.zshenv` (loaded by every shell, including scripts):
+
+- **nvm node on PATH** - Resolves nvm's default version (following aliases like `lts/*`) so pnpm/tsx shims running under `/bin/sh` find `node`
+- **`CODE_HOME`** - Points at `~/code`, where all git clones live
+- **`~/.local/bin`** on PATH (uv and other user binaries)
+
+`.zshrc` (interactive shells, no Oh My Zsh, targets <50ms startup):
+
+- **Lazy-loaded nvm** with automatic `.nvmrc` switching on `cd`
+- **nvm node wins** - Moved to the front of PATH last, ahead of Homebrew's `node`, with duplicate entries removed
+- **Cached `compinit`** (rebuilt once a day) and a robbyrussell-style prompt with git branch
+- **zsh-autosuggestions** from the Oh My Zsh plugin folder or Homebrew
+- **Lazy-loaded zoxide** (`z`, `zi`) and **fzf** key bindings
+- **Aliases** - `eza` for `ls`/`ll`/`la`/`tree`, `bat` for `cat`, `fd` for `find`, `repos` to jump to `$CODE_HOME`, and short git aliases (`g`, `ga`, `gc`, `gst`, `glog`, ...)
+- **PATH** for bun, pnpm (`$PNPM_HOME/bin`), Java (OpenJDK 21) and the Android SDK (emulator, platform-tools, cmdline-tools)
 
 ### PowerShell Configuration
 
@@ -57,7 +67,7 @@ Personal configuration files and dotfiles.
 
 To use these configurations:
 
-1. **Zsh**: `ln -sf ~/.config/zsh/.zshrc ~/.zshrc`
+1. **Zsh**: `ln -sf ~/.config/zsh/.zshenv ~/.zshenv && ln -sf ~/.config/zsh/.zshrc ~/.zshrc`
 2. **VS Code / Cursor**: Copy `.vscode/settings.json` to `~/Library/Application Support/Code/User/settings.json` (VS Code) and `~/Library/Application Support/Cursor/User/settings.json` (Cursor)
 3. **PowerShell**: Copy profile to `$PROFILE` (usually `~/Documents/PowerShell/Microsoft.PowerShell_profile.ps1`)
 4. **Oh My Posh themes**: Copy `.omp.json` files to `$env:POSH_THEMES_PATH`
@@ -65,9 +75,11 @@ To use these configurations:
 
 ## Requirements
 
-- [oh my zsh](https://ohmyz.sh/)
 - [nvm](https://github.com/nvm-sh/nvm)
+- [zsh-autosuggestions](https://github.com/zsh-users/zsh-autosuggestions)
+- [zoxide](https://github.com/ajeetdsouza/zoxide)
 - [eza](https://github.com/eza-community/eza)
 - [bat](https://github.com/sharkdp/bat)
 - [fd](https://github.com/sharkdp/fd)
 - [fzf](https://github.com/junegunn/fzf)
+- OpenJDK 21 and the Android SDK (optional, for Android work)
