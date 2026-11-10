@@ -45,15 +45,17 @@ Personal configuration files and dotfiles.
 
 - **oh-my-posh** with the `cobalt` theme (async, so the prompt shows before git info loads)
 - **PSReadLine** - Emacs keybindings, no bell, `Ctrl+d` deletes a character, history predictions in a list view
-- **zoxide** for smart directory jumping (`z`, `zi`)
+- **zoxide** for smart directory jumping (`z`, `zi`), replacing the old `z` module
 - **fnm** for Node.js version management, switching versions on `cd` (skipped if already initialized)
 - **PSFzf + Terminal-Icons** loaded after the prompt appears; `Ctrl+f` finds files, `Ctrl+r` searches history
 - **`which`** - Prints the path of a command
 
-### Oh My Posh Themes
+### Oh My Posh Themes (`themes/ohmyposh/`)
 
-- **`blush`** — soft pink/purple palette, clock on the right
-- **`cobalt`** — blue dev theme with exit code and command timing (active)
+- **`cobalt`** (active) - Single-line prompt: current folder in blue, git branch in orange-red, a red `✗` when the last command failed, then a green `❯`. Command duration on the right. Async rendering, and it reports the current directory to Windows Terminal so new tabs and panes open in the same folder
+- **`blush`** - Soft pink/purple palette: full path, git branch in purple, a mint `❯`. Clock (`HH:MM:SS`) and command duration on the right
+
+To switch themes, change the `--config` path in the PowerShell profile.
 
 ### Windows Terminal (`windowsterminal/settings.json`)
 
