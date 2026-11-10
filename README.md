@@ -14,7 +14,7 @@ Personal configuration files and dotfiles.
 │       └── cobalt.omp.json  # Blue dev theme (active)
 ├── windowsterminal/     # Windows Terminal configuration
 │   └── settings.json
-├── vscode/              # VS Code configuration
+├── .vscode/             # VS Code + Cursor configuration (shared)
 │   └── settings.json
 └── zsh/                 # Zsh shell configuration
     └── .zshrc           # Main zsh config with nvm setup
@@ -44,16 +44,21 @@ Personal configuration files and dotfiles.
 - **`blush`** — soft pink/purple palette, clock on the right
 - **`cobalt`** — blue dev theme with exit code and command timing (active)
 
-### VS Code Settings
+### VS Code / Cursor Settings (`.vscode/settings.json`)
 
-- Personal VS Code configuration and preferences
+- **One file for both editors** - VS Code and Cursor use identical settings
+- **Prettier** as the default formatter, with format on save
+- **Hack Nerd Font Mono**, **Vesper** theme, **Material Icon Theme**
+- **Tailwind CSS** language mode for `.css` files
+- **Auto-update imports** on file move (`js/ts.updateImportsOnFileMove.enabled`)
+- Some keys only exist in one editor and show as unknown in the other: `workbench.agentsWindowButton.enabled` (Cursor only), `json.schemaDownload.trustedDomains` (VS Code only for now)
 
 ## Installation
 
 To use these configurations:
 
 1. **Zsh**: `ln -sf ~/.config/zsh/.zshrc ~/.zshrc`
-2. **VS Code**: Copy settings from `vscode/settings.json` to your VS Code settings
+2. **VS Code / Cursor**: Copy `.vscode/settings.json` to `~/Library/Application Support/Code/User/settings.json` (VS Code) and `~/Library/Application Support/Cursor/User/settings.json` (Cursor)
 3. **PowerShell**: Copy profile to `$PROFILE` (usually `~/Documents/PowerShell/Microsoft.PowerShell_profile.ps1`)
 4. **Oh My Posh themes**: Copy `.omp.json` files to `$env:POSH_THEMES_PATH`
 5. **Windows Terminal**: Copy `windowsterminal/settings.json` to `%LOCALAPPDATA%\Packages\Microsoft.WindowsTerminal_8wekyb3d8bbwe\LocalState\`
