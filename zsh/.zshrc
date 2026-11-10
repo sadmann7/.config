@@ -151,3 +151,7 @@ export PATH="$HOME/.local/bin:$BUN_INSTALL/bin:$PNPM_HOME/bin:$PATH"
 export JAVA_HOME="/opt/homebrew/opt/openjdk@21/libexec/openjdk.jdk/Contents/Home"
 export ANDROID_HOME="$HOME/Library/Android/sdk"
 export PATH="$JAVA_HOME/bin:$ANDROID_HOME/emulator:$ANDROID_HOME/platform-tools:$ANDROID_HOME/cmdline-tools/latest/bin:$PATH"
+
+# Keep nvm's default node (added in ~/.zshenv) ahead of Homebrew's
+typeset -U path
+path=(${(M)path:#$NVM_DIR/versions/node/*/bin} ${path:#$NVM_DIR/versions/node/*/bin})
