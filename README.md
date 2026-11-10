@@ -95,8 +95,8 @@ Zsh (macOS):
 - [bat](https://github.com/sharkdp/bat)
 - [fd](https://github.com/sharkdp/fd)
 - [fzf](https://github.com/junegunn/fzf)
-- [OpenJDK 21](https://formulae.brew.sh/formula/openjdk@21) (optional, for Android work)
-- [Android SDK](https://developer.android.com/studio) (optional, for Android work)
+- [OpenJDK 21](https://formulae.brew.sh/formula/openjdk@21) (optional)
+- [Android SDK](https://developer.android.com/studio) (optional)
 
 PowerShell (Windows):
 
