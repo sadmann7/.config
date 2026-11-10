@@ -95,12 +95,14 @@ Zsh (macOS):
 - [bat](https://github.com/sharkdp/bat)
 - [fd](https://github.com/sharkdp/fd)
 - [fzf](https://github.com/junegunn/fzf)
-- OpenJDK 21 and the Android SDK (optional, for Android work)
+- [OpenJDK 21](https://formulae.brew.sh/formula/openjdk@21) (optional, for Android work)
+- [Android SDK](https://developer.android.com/studio) (optional, for Android work)
 
 PowerShell (Windows):
 
 - [oh-my-posh](https://ohmyposh.dev/)
 - [zoxide](https://github.com/ajeetdsouza/zoxide)
 - [fnm](https://github.com/Schniz/fnm)
-- [fzf](https://github.com/junegunn/fzf) with [PSFzf](https://github.com/kelleyma49/PSFzf)
+- [fzf](https://github.com/junegunn/fzf)
+- [PSFzf](https://github.com/kelleyma49/PSFzf)
 - [Terminal-Icons](https://github.com/devblackops/Terminal-Icons)
