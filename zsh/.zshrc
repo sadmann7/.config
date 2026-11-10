@@ -146,3 +146,8 @@ zi() { _load_zoxide && zi "$@"; }
 export BUN_INSTALL="$HOME/.bun"
 export PNPM_HOME="$HOME/Library/pnpm"
 export PATH="$HOME/.local/bin:$BUN_INSTALL/bin:$PNPM_HOME/bin:$PATH"
+
+# Android SDK (emulator, adb, avdmanager)
+export JAVA_HOME="/opt/homebrew/opt/openjdk@21/libexec/openjdk.jdk/Contents/Home"
+export ANDROID_HOME="$HOME/Library/Android/sdk"
+export PATH="$JAVA_HOME/bin:$ANDROID_HOME/emulator:$ANDROID_HOME/platform-tools:$ANDROID_HOME/cmdline-tools/latest/bin:$PATH"
