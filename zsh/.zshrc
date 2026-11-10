@@ -145,4 +145,4 @@ zi() { _load_zoxide && zi "$@"; }
 # ============================================
 export BUN_INSTALL="$HOME/.bun"
 export PNPM_HOME="$HOME/Library/pnpm"
-export PATH="$HOME/.local/bin:$BUN_INSTALL/bin:$PNPM_HOME:$PATH"
+export PATH="$HOME/.local/bin:$BUN_INSTALL/bin:$PNPM_HOME/bin:$PATH"
