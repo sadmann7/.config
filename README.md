@@ -55,6 +55,13 @@ Personal configuration files and dotfiles.
 - **`blush`** — soft pink/purple palette, clock on the right
 - **`cobalt`** — blue dev theme with exit code and command timing (active)
 
+### Windows Terminal (`windowsterminal/settings.json`)
+
+- **PowerShell 7** as the default profile, with **Hack Nerd Font Mono** for every profile
+- **Visible profiles** - Command Prompt, Git Bash, Ubuntu (WSL, Campbell scheme, size 12) and the VS 2022 developer shells; Windows PowerShell, Azure Cloud Shell and the auto-generated Ubuntu entry are hidden
+- **Copy as plain text** (no formatting), and selecting text doesn't copy it automatically
+- **Keybindings** - `Ctrl+C`/`Ctrl+V` copy and paste, `Ctrl+Shift+D` or `Ctrl+Shift+T` duplicate the tab, `Alt+Shift+D` splits the pane, `Ctrl+Shift+F` finds
+
 ### VS Code / Cursor Settings (`.vscode/settings.json`)
 
 - **One file for both editors** - VS Code and Cursor use identical settings
