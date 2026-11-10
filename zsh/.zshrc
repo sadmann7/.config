@@ -14,7 +14,7 @@ export PATH="$HOMEBREW_PREFIX/bin:$HOMEBREW_PREFIX/sbin:$PATH"
 # Lazy-load NVM with .nvmrc auto-switch
 # ============================================
 export NVM_DIR="$HOME/.nvm"
-[[ -f "$NVM_DIR/alias/default" ]] && export PATH="$NVM_DIR/versions/node/$(cat $NVM_DIR/alias/default)/bin:$PATH"
+# Node itself is added in ~/.zshenv (needed by pnpm/tsx /bin/sh shims).
 
 _nvm_loaded=0
 _load_nvm() {
